@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-// JSON unmarshal fails if the time format isn't RFC3339. Hence writing custom Time with implementations of MarshalJSON and UnMarshalJSON impl
+// JSON unmarshal fails if the time format isn't RFC3339.
+// Hence writing custom Time with implementations of MarshalJSON and UnMarshalJSON
 
 // Ctime - type wrapper for time.Time
 type Ctime struct {
@@ -14,6 +15,7 @@ type Ctime struct {
 }
 
 var nilTime = time.Time{}
+var justDateFormat = "2006-01-02"
 
 // UnmarshalJSON - impl
 func (c *Ctime) UnmarshalJSON(b []byte) error {
@@ -22,7 +24,7 @@ func (c *Ctime) UnmarshalJSON(b []byte) error {
 	if string(b) == "null" {
 		return nil
 	}
-	t, err := time.Parse("2006-01-02", s)
+	t, err := time.Parse(justDateFormat, s)
 	if err != nil {
 		return err
 	}
@@ -35,7 +37,7 @@ func (c *Ctime) MarshalJSON() ([]byte, error) {
 	if c.Time == nilTime {
 		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf("\"%s\"", c.Time.Format("2006-01-02"))), nil
+	return []byte(fmt.Sprintf("\"%s\"", c.Time.Format(justDateFormat))), nil
 }
 
 // IsSet - Util method to check if a valid time is set
