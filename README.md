@@ -20,7 +20,7 @@ type MyStruct struct {
 }
 
 func main() {
-	// json payload with RFC3339 format
+	// json payload with date only format
 	dateFormat := `{"time":"2018-02-18"}`
 
 	var myStruct = new(MyStruct)
